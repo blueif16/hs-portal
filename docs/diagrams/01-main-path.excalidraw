@@ -1,0 +1,58 @@
+{"type":"excalidraw","version":2,"source":"hs-portal","appState":{"viewBackgroundColor":"#ffffff","gridSize":null},"files":{},"elements":[
+{"id":"t1","type":"text","x":140,"y":24,"width":640,"height":40,"text":"hs-portal · 主链路 Main Function Path","fontSize":28,"fontFamily":5,"strokeColor":"#1e1e1e","textAlign":"left"},
+{"id":"t1b","type":"text","x":140,"y":66,"width":700,"height":24,"text":"★ (purple) = AI feature   ·   一句话赛道 → 计划 → 受控执行 → 数据回流","fontSize":16,"fontFamily":5,"strokeColor":"#6741d9","textAlign":"left"},
+
+{"id":"b1","type":"rectangle","x":200,"y":110,"width":280,"height":74,"strokeColor":"#1971c2","backgroundColor":"#a5d8ff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b1t","type":"text"}]},
+{"id":"b1t","type":"text","x":210,"y":124,"width":260,"height":46,"text":"① 你：输入一句话赛道\n例「手工皮具 · 种草号」","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b1"},
+
+{"id":"a1","type":"arrow","x":340,"y":184,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b2","type":"rectangle","x":200,"y":226,"width":280,"height":74,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b2t","type":"text"}]},
+{"id":"b2t","type":"text","x":210,"y":240,"width":260,"height":46,"text":"★ AI 方案生成 (planner)\n→ 3 个单一模式计划 · 错峰","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b2"},
+
+{"id":"a2","type":"arrow","x":340,"y":300,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b3","type":"rectangle","x":200,"y":342,"width":280,"height":74,"strokeColor":"#f08c00","backgroundColor":"#ffec99","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b3t","type":"text"}]},
+{"id":"b3t","type":"text","x":210,"y":356,"width":260,"height":46,"text":"② 计划池 hs_plans\ndiscovery · comment · profile","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b3"},
+
+{"id":"a3","type":"arrow","x":340,"y":416,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b4","type":"rectangle","x":200,"y":458,"width":280,"height":74,"strokeColor":"#2f9e44","backgroundColor":"#b2f2bb","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b4t","type":"text"}]},
+{"id":"b4t","type":"text","x":210,"y":472,"width":260,"height":46,"text":"③ ✓ 一键启用方案\narms chrome.alarms (错峰)","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b4"},
+
+{"id":"a4","type":"arrow","x":340,"y":532,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b5","type":"rectangle","x":200,"y":574,"width":280,"height":74,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b5t","type":"text"}]},
+{"id":"b5t","type":"text","x":210,"y":588,"width":260,"height":46,"text":"★ AI 选定投放时段\n自然分钟 + ±18min 抖动","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b5"},
+
+{"id":"a5","type":"arrow","x":340,"y":648,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b6","type":"rectangle","x":200,"y":690,"width":280,"height":74,"strokeColor":"#2f9e44","backgroundColor":"#b2f2bb","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b6t","type":"text"}]},
+{"id":"b6t","type":"text","x":210,"y":704,"width":260,"height":46,"text":"④ 受控 Runner · 3 模式 DAG\n浏览 → 点赞/收藏/关注/评论","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b6"},
+
+{"id":"a6","type":"arrow","x":340,"y":764,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#e03131","endArrowhead":"arrow"},
+
+{"id":"b7","type":"rectangle","x":200,"y":806,"width":280,"height":74,"strokeColor":"#e03131","backgroundColor":"#ffc9c9","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b7t","type":"text"}]},
+{"id":"b7t","type":"text","x":210,"y":820,"width":260,"height":46,"text":"⑤ 调速器 Governor\n频次上限 · 养号阶段 · 风控退避","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b7"},
+
+{"id":"a7","type":"arrow","x":340,"y":880,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b8","type":"rectangle","x":200,"y":922,"width":280,"height":74,"strokeColor":"#1e1e1e","backgroundColor":"#ced4da","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b8t","type":"text"}]},
+{"id":"b8t","type":"text","x":210,"y":936,"width":260,"height":46,"text":"⑥ 小红书 DOM\n(页面自己签 x-s · 我们不伪造)","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b8"},
+
+{"id":"a8","type":"arrow","x":340,"y":996,"width":0,"height":42,"points":[[0,0],[0,42]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+
+{"id":"b9","type":"rectangle","x":200,"y":1038,"width":280,"height":74,"strokeColor":"#2f9e44","backgroundColor":"#b2f2bb","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"b9t","type":"text"}]},
+{"id":"b9t","type":"text","x":210,"y":1052,"width":260,"height":46,"text":"⑦ 数据回流 hs_account\n粉丝/获赞 Δ · 7日新增 · 趋势","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"b9"},
+
+{"id":"fb","type":"arrow","x":480,"y":1075,"width":250,"height":1037,"points":[[0,0],[250,0],[250,-1037],[-140,-1037]],"strokeColor":"#2f9e44","strokeStyle":"dashed","strokeWidth":2,"endArrowhead":"arrow"},
+{"id":"fbt","type":"text","x":740,"y":540,"width":150,"height":48,"text":"反馈：养号阶段\n自动调上限","fontSize":14,"fontFamily":5,"strokeColor":"#2f9e44","textAlign":"center"},
+
+{"id":"s1","type":"rectangle","x":620,"y":690,"width":250,"height":74,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"s1t","type":"text"}]},
+{"id":"s1t","type":"text","x":630,"y":704,"width":230,"height":46,"text":"★ AI 智能评论\n按笔记内容现写 · 走心具体","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"s1"},
+{"id":"as1","type":"arrow","x":480,"y":720,"width":138,"height":0,"points":[[0,0],[138,0]],"strokeColor":"#6741d9","endArrowhead":"arrow"},
+
+{"id":"s2","type":"rectangle","x":620,"y":790,"width":250,"height":74,"strokeColor":"#f08c00","backgroundColor":"#ffec99","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"s2t","type":"text"}]},
+{"id":"s2t","type":"text","x":630,"y":804,"width":230,"height":46,"text":"截流采集 hs_targets\n采集用户 → 去重 → CSV 导出","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"s2"},
+{"id":"as2","type":"arrow","x":480,"y":760,"width":138,"height":67,"points":[[0,0],[138,67]],"strokeColor":"#f08c00","endArrowhead":"arrow"}
+]}

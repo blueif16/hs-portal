@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HS Portal — Content Studio</title>
+  <link rel="stylesheet" href="portal.css" />
+</head>
+<body>
+  <!--
+    portal.html — the LARGER web portal (separate from the on-page 养号 panel). The Shadow-DOM
+    panel on xiaohongshu.com stays focused on engagement (养号: browse/like/collect/follow/comment).
+    THIS surface is for the other half: trend detection → remix → publishable drafts (pre-publish
+    gate). Publishing itself is deliberately NOT wired yet (manual-gated, higher-risk).
+  -->
+  <header class="top">
+    <div class="brand">
+      <span class="logo">HS</span>
+      <div>
+        <h1>Content Studio</h1>
+        <p class="sub">小红书 content · trends · remix · publishing</p>
+      </div>
+    </div>
+    <span class="pill ok">scan · remix · publish-prep live</span>
+  </header>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <main class="bento">
+    <!-- 1. TREND RADAR -->
+    <section class="tile span2" data-area="trends">
+      <div class="t-head"><span class="ico">📈</span><h2>Trend radar</h2><span class="badge">live</span></div>
+      <p class="desc">Pull today's best-performing notes in your niche, ranked. Remix any one into a publishable draft.</p>
+
+      <div class="scan-bar">
+        <input id="niche" class="niche-input" type="text"
+               placeholder="niche keywords (e.g. 美妆 平价 油皮) — optional" autocomplete="off" />
+        <button id="scanBtn" class="btn primary">↻ Scan</button>
+        <span id="scanMeta" class="scan-meta"></span>
+      </div>
+
+      <div id="hotGrid" class="hot-grid"></div>
+      <div id="hotEmpty" class="ph">Click <b>Scan</b> to pull today's best notes in your niche.</div>
+    </section>
+
+    <!-- 2. DRAFTS -->
+    <section class="tile span2" data-area="drafts">
+      <div class="t-head"><span class="ico">📝</span><h2>Drafts</h2><span class="badge">live</span></div>
+      <p class="desc">AI-remixed, publishable drafts with a pre-publish gate. Review, copy fields, ship manually.</p>
+
+      <div id="draftList" class="draft-list"></div>
+      <div id="draftEmpty" class="ph">Remix a hot note to create your first draft.</div>
+    </section>
+
+    <!-- 3. PUBLISH GATE (live status) -->
+    <section class="tile span2" data-area="publish">
+      <div class="t-head"><span class="ico">🚀</span><h2>发布门禁 · Publish gate</h2><span class="badge">live</span></div>
+      <p class="desc">Prepare a draft into <b>creator.xiaohongshu.com</b> — the extension prefills 标题/正文/封面 and stops at 发布 for your manual click. It never publishes itself.</p>
+
+      <div id="pubGate" class="pub-gate"></div>
+
+      <div class="pub-cadence">
+        <span class="cad-h">节奏建议</span>
+        <ul>
+          <li>≤ 3 篇 / 24 小时，每篇间隔 ≥ 30 分钟</li>
+          <li>黄金时段：早 7–9 · 午 12–13 · 晚 20–22</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    养号 (engagement) runs in the in-page panel on <b>xiaohongshu.com</b>. This Studio is for content &amp; publishing — scan, remix, and publish-prep are live. The extension prefills 创作中心 but always stops at 发布 for your manual click.
+  </footer>
+
+  <script src="portal.js"></script>
+</body>
+</html>
