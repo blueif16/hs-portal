@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "HS Portal (dev)",
+  "version": "0.0.1",
+  "description": "Local Xiaohongshu engagement assistant — M0 skeleton. No cloud, no phone-home.",
+
+  "permissions": ["storage", "tabs", "declarativeNetRequest", "downloads", "alarms"],
+  "host_permissions": [
+    "*://*.xiaohongshu.com/*",
+    "*://*.rednote.com/*",
+    "https://api.deepseek.com/*",
+    "https://api.openai.com/*",
+    "https://openrouter.ai/*",
+    "https://api.tokenfactory.us-central1.nebius.com/*"
+  ],
+
+  "background": {
+    "service_worker": "src/background.js"
+  },
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "HS Portal"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.xiaohongshu.com/*", "*://*.rednote.com/*"],
+      "js": ["src/content/nethook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["*://*.xiaohongshu.com/*", "*://*.rednote.com/*"],
+      "js": ["src/lib/human.js", "src/content/engine.js", "src/content/panel.js", "src/content/publisher.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "xhs_shield",
+        "enabled": true,
+        "path": "rules/shield.json"
+      }
+    ]
+  }
+}

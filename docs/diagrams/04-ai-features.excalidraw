@@ -1,0 +1,27 @@
+{"type":"excalidraw","version":2,"source":"hs-portal","appState":{"viewBackgroundColor":"#ffffff","gridSize":null},"files":{},"elements":[
+{"id":"t","type":"text","x":60,"y":22,"width":900,"height":36,"text":"AI 能力一览   AI Features (every ★ = an AI feature)","fontSize":26,"fontFamily":5,"strokeColor":"#1e1e1e","textAlign":"left"},
+{"id":"lg","type":"text","x":60,"y":62,"width":900,"height":22,"text":"全部走你自己的 LLM 端点 (OpenAI 兼容) · key 本地存储 · 不上云 · 仅在你触发时调用","fontSize":15,"fontFamily":5,"strokeColor":"#6741d9","textAlign":"left"},
+
+{"id":"spine","type":"rectangle","x":60,"y":150,"width":240,"height":530,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"spinet","type":"text"}]},
+{"id":"spinet","type":"text","x":74,"y":335,"width":212,"height":170,"text":"★ AI 层\n你自己的 LLM\n(OpenAI 兼容端点)\n\nkey 本地 · 不上云\n仅在你触发时调用","fontSize":17,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"spine"},
+
+{"id":"f1","type":"rectangle","x":380,"y":150,"width":560,"height":82,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"f1t","type":"text"}]},
+{"id":"f1t","type":"text","x":394,"y":162,"width":532,"height":58,"text":"★ AI 方案生成 · generatePlanSet\n一句话赛道 → 3 个错峰单一模式计划 (人工可改后再跑)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"f1"},
+{"id":"af1","type":"arrow","x":300,"y":191,"width":80,"height":0,"points":[[0,0],[80,0]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"f2","type":"rectangle","x":380,"y":262,"width":560,"height":82,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"f2t","type":"text"}]},
+{"id":"f2t","type":"text","x":394,"y":274,"width":532,"height":58,"text":"★ AI 排期时段 · 选投放时段\n受众活跃时段 + ±18min 抖动 · 错峰 (chrome.alarms)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"f2"},
+{"id":"af2","type":"arrow","x":300,"y":303,"width":80,"height":0,"points":[[0,0],[80,0]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"f3","type":"rectangle","x":380,"y":374,"width":560,"height":82,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"f3t","type":"text"}]},
+{"id":"f3t","type":"text","x":394,"y":386,"width":532,"height":58,"text":"★ AI 智能评论 · generateComment\n按笔记 / 对方评论现写 · 走心具体 · 反 AI 味","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"f3"},
+{"id":"af3","type":"arrow","x":300,"y":415,"width":80,"height":0,"points":[[0,0],[80,0]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"f4","type":"rectangle","x":380,"y":486,"width":560,"height":82,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"f4t","type":"text"}]},
+{"id":"f4t","type":"text","x":394,"y":498,"width":532,"height":58,"text":"★ AI 爆款复刻 · generateRemix\ndecode 为什么爆 → 结构级复刻草稿 (非照抄文字/图片)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"f4"},
+{"id":"af4","type":"arrow","x":300,"y":527,"width":80,"height":0,"points":[[0,0],[80,0]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"f5","type":"rectangle","x":380,"y":598,"width":560,"height":82,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"f5t","type":"text"}]},
+{"id":"f5t","type":"text","x":394,"y":610,"width":532,"height":58,"text":"★ AI 封面视觉分析 · analyzeCover (可选多模态)\n逆向封面信息层级 / 配色 → 复刻设计逻辑","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"f5"},
+{"id":"af5","type":"arrow","x":300,"y":639,"width":80,"height":0,"points":[[0,0],[80,0]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"}
+]}

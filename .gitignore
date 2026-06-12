@@ -1,0 +1,9 @@
+# Secrets — bundled dev LLM key, never commit/ship (see CLAUDE.md)
+extension/src/lib/secrets.local.js
+
+# Third-party reference repos (each has its own .git; large, not our code)
+ref/
+
+# OS / editor noise
+.DS_Store
+*.log

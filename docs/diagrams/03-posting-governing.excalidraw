@@ -1,0 +1,47 @@
+{"type":"excalidraw","version":2,"source":"hs-portal","appState":{"viewBackgroundColor":"#ffffff","gridSize":null},"files":{},"elements":[
+{"id":"t","type":"text","x":60,"y":22,"width":900,"height":36,"text":"发布 & 受控阶段   Posting & Governing","fontSize":26,"fontFamily":5,"strokeColor":"#1e1e1e","textAlign":"left"},
+{"id":"lg","type":"text","x":60,"y":62,"width":940,"height":22,"text":"★ (purple) = AI   ·   左:受控安全 (贯穿养号)   ·   右:内容创作 / 发布 (独立 · 手动闸门)","fontSize":15,"fontFamily":5,"strokeColor":"#6741d9","textAlign":"left"},
+
+{"id":"lh","type":"rectangle","x":60,"y":104,"width":390,"height":56,"strokeColor":"#e03131","backgroundColor":"#ffc9c9","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"lht","type":"text"}]},
+{"id":"lht","type":"text","x":72,"y":118,"width":366,"height":28,"text":"受控 & 安全 Governing (贯穿养号全程)","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"lh"},
+
+{"id":"l1","type":"rectangle","x":60,"y":178,"width":390,"height":78,"strokeColor":"#e03131","backgroundColor":"#ffc9c9","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"l1t","type":"text"}]},
+{"id":"l1t","type":"text","x":72,"y":190,"width":366,"height":54,"text":"调速器 Governor\n每时/每天上限 · 跨线即停并说明原因","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"l1"},
+
+{"id":"l2","type":"rectangle","x":60,"y":272,"width":390,"height":78,"strokeColor":"#e03131","backgroundColor":"#ffc9c9","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"l2t","type":"text"}]},
+{"id":"l2t","type":"text","x":72,"y":284,"width":366,"height":54,"text":"养号阶段 warming\n新号/小号自动降速 ×0.4 → ×0.7 → ×1.0","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"l2"},
+
+{"id":"l3","type":"rectangle","x":60,"y":366,"width":390,"height":78,"strokeColor":"#e03131","backgroundColor":"#ffc9c9","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"l3t","type":"text"}]},
+{"id":"l3t","type":"text","x":72,"y":378,"width":366,"height":54,"text":"风控退避 risk backoff\n404/sec 网关 · 461/限流 → 指数退避 + 健康分","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"l3"},
+
+{"id":"l4","type":"rectangle","x":60,"y":460,"width":390,"height":78,"strokeColor":"#f08c00","backgroundColor":"#ffec99","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"l4t","type":"text"}]},
+{"id":"l4t","type":"text","x":72,"y":472,"width":366,"height":54,"text":"跨会话去重 dedup\nhs_seen_notes / hs_seen_users · 不重复打扰","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"l4"},
+
+{"id":"l5","type":"rectangle","x":60,"y":554,"width":390,"height":78,"strokeColor":"#1971c2","backgroundColor":"#a5d8ff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"l5t","type":"text"}]},
+{"id":"l5t","type":"text","x":72,"y":566,"width":366,"height":54,"text":"dry-run 默认演练\n评论只输入不提交 (no-burn 不烧号)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"l5"},
+
+{"id":"rh","type":"rectangle","x":560,"y":104,"width":440,"height":56,"strokeColor":"#2f9e44","backgroundColor":"#b2f2bb","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"rht","type":"text"}]},
+{"id":"rht","type":"text","x":572,"y":118,"width":416,"height":28,"text":"内容创作 & 发布 Content Studio (独立 · 手动闸门)","fontSize":16,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"rh"},
+
+{"id":"r1","type":"rectangle","x":560,"y":178,"width":440,"height":78,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"r1t","type":"text"}]},
+{"id":"r1t","type":"text","x":572,"y":190,"width":416,"height":54,"text":"★ 趋势雷达 trend radar\n页面 signed feed → 打分出热门笔记","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"r1"},
+{"id":"ra1","type":"arrow","x":780,"y":256,"width":0,"height":18,"points":[[0,0],[0,18]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"r2","type":"rectangle","x":560,"y":274,"width":440,"height":78,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"r2t","type":"text"}]},
+{"id":"r2t","type":"text","x":572,"y":286,"width":416,"height":54,"text":"★ 爆款拆解 + 复刻 viral remix\ndecode 为什么爆 → 结构级复刻草稿 (非照抄)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"r2"},
+{"id":"ra2","type":"arrow","x":780,"y":352,"width":0,"height":18,"points":[[0,0],[0,18]],"strokeColor":"#6741d9","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"r3","type":"rectangle","x":560,"y":370,"width":440,"height":78,"strokeColor":"#6741d9","backgroundColor":"#d0bfff","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"r3t","type":"text"}]},
+{"id":"r3t","type":"text","x":572,"y":382,"width":416,"height":54,"text":"★ 封面视觉分析 analyzeCover (可选多模态)\n逆向封面信息层级 / 配色 → 文生图 prompt","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"r3"},
+{"id":"ra3","type":"arrow","x":780,"y":448,"width":0,"height":18,"points":[[0,0],[0,18]],"strokeColor":"#f08c00","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"r4","type":"rectangle","x":560,"y":466,"width":440,"height":78,"strokeColor":"#f08c00","backgroundColor":"#ffec99","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"r4t","type":"text"}]},
+{"id":"r4t","type":"text","x":572,"y":478,"width":416,"height":54,"text":"发布门禁 publish gate\n标题 8–20 · 正文 ≥80 · ≥3 话题 · 反 AI 味","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"r4"},
+{"id":"ra4","type":"arrow","x":780,"y":544,"width":0,"height":18,"points":[[0,0],[0,18]],"strokeColor":"#2f9e44","strokeWidth":2,"endArrowhead":"arrow"},
+
+{"id":"r5","type":"rectangle","x":560,"y":562,"width":440,"height":78,"strokeColor":"#2f9e44","backgroundColor":"#b2f2bb","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"r5t","type":"text"}]},
+{"id":"r5t","type":"text","x":572,"y":574,"width":416,"height":54,"text":"预填创作页 → 停在【发布】\n人工选 ≥3 真实话题 + 自己点发布 (工具不替你发)","fontSize":15,"fontFamily":5,"textAlign":"center","verticalAlign":"middle","containerId":"r5"},
+
+{"id":"rl","type":"rectangle","x":60,"y":664,"width":940,"height":56,"strokeColor":"#e03131","backgroundColor":"#fff0f0","fillStyle":"solid","strokeStyle":"dashed","strokeWidth":2,"roundness":{"type":3},"boundElements":[{"id":"rlt","type":"text"}]},
+{"id":"rlt","type":"text","x":72,"y":678,"width":916,"height":28,"text":"❌ 红线:养号面板永不发笔记 · 发布频次门禁 ≤ 3 / 24h 且间隔 ≥ 30 分钟","fontSize":15,"fontFamily":5,"strokeColor":"#e03131","textAlign":"center","verticalAlign":"middle","containerId":"rl"}
+]}
