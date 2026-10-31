@@ -1558,6 +1558,12 @@ async function startSession(rawPlan, source) {
 // =====================================================================
 const PLAN_ALARM_PREFIX = "hs_plan_";
 
+// AUTO_RUN — master switch for scheduled runs. OFF: no plan alarm is ever armed, a stale one
+// that fires is ignored, and the UI shows no next-run time. Manual ▶Run still works.
+// Turned off 2026-10-31: every run since Oct 17 hit HTTP 461 → /login, so stop auto-spawning
+// windows until the account is checked. Flip to true + reload the extension to resume.
+const AUTO_RUN = false;
+
 // FIRE_JITTER_MS — each armed alarm fires 0–14 min AFTER the stored timeOfDay, re-rolled
 // on every (re)arm, so the account never acts at the exact same minute every day (the
 // same anti-pattern reasoning as the governor's jittered pacing, applied to the clock).
@@ -1580,7 +1586,7 @@ function jitterTimeOfDay(tod) {
 // schedule isn't runnable (disabled / no/invalid timeOfDay). Plain Date math (fine in the
 // extension runtime). Scans up to 8 days ahead so weekday filters always resolve.
 function nextOccurrence(schedule, from) {
-  if (!schedule || !schedule.enabled) return null;
+  if (!AUTO_RUN || !schedule || !schedule.enabled) return null;
   const m = /^(\d{1,2}):(\d{2})$/.exec(String(schedule.timeOfDay || "").trim());
   if (!m) return null;
   const hh = +m[1],
@@ -1662,6 +1668,10 @@ async function rescheduleOne(plan) {
 async function onPlanAlarm(alarm) {
   const name = (alarm && alarm.name) || "";
   if (!name.startsWith(PLAN_ALARM_PREFIX)) return; // not ours (e.g. a future update-check)
+  if (!AUTO_RUN) {
+    event("scheduler: auto-run is OFF — ignoring " + name, "muted");
+    return; // one-shot alarm, already consumed; nothing re-armed
+  }
   const id = name.slice(PLAN_ALARM_PREFIX.length);
   try {
     const { plans } = await loadPlans();
