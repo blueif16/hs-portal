@@ -33,7 +33,7 @@ test("parseSearchFeeds normalizes the engine's search response", () => {
   assert.equal(rows.length, 2);
   assert.deepEqual(rows[0], {
     noteId: "6a55d2e9000000001c0257cd",
-    xsecToken: "AB7XfP804NfeBKARheTK3txRiCNx5rkXhCDilJGXbrDPw=",
+    xsecToken: "TEST_XSEC_TOKEN_1",
     title: "智能体好啊 智能体得学啊",
     noteType: "normal",
     authorId: "67be8bd0000000000e012d82",

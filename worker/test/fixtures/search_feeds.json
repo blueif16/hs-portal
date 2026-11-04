@@ -1,7 +1,7 @@
 {
  "feeds": [
   {
-   "xsecToken": "AB7XfP804NfeBKARheTK3txRiCNx5rkXhCDilJGXbrDPw=",
+   "xsecToken": "TEST_XSEC_TOKEN_1",
    "id": "6a55d2e9000000001c0257cd",
    "modelType": "note",
    "noteCard": {
@@ -34,7 +34,7 @@
    "index": 0
   },
   {
-   "xsecToken": "AB2MIzuEDXsKnOIYHtC8NCx8KXsVvFKvIkBtvFW4LP4N0=",
+   "xsecToken": "TEST_XSEC_TOKEN_2",
    "id": "6a585b4f000000000503a8b2",
    "modelType": "note",
    "noteCard": {
