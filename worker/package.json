@@ -1,0 +1,9 @@
+{
+  "name": "hs-portal-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "discover": "node src/run.ts"
+  }
+}
