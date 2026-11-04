@@ -91,6 +91,8 @@ function cacheRefs() {
   refs.scanBtn = document.getElementById("scanBtn");
   refs.scanMeta = document.getElementById("scanMeta");
   refs.hotGrid = document.getElementById("hotGrid");
+  refs.hotPrev = document.getElementById("hotPrev");
+  refs.hotNext = document.getElementById("hotNext");
   refs.hotEmpty = document.getElementById("hotEmpty");
   refs.draftList = document.getElementById("draftList");
   refs.draftEmpty = document.getElementById("draftEmpty");
@@ -107,37 +109,73 @@ function renderHotNotes(notes) {
   notes = Array.isArray(notes) ? notes : [];
   if (!notes.length) {
     refs.hotEmpty.hidden = false;
+    updateCarouselButtons();
     return;
   }
   refs.hotEmpty.hidden = true;
   for (const note of notes) refs.hotGrid.appendChild(buildHotCard(note));
+  refs.hotGrid.scrollLeft = 0;
+  updateCarouselButtons();
+}
+
+/* ---------------- carousel (‹ › buttons, ← → keys, Tab) ---------------- */
+function scrollHot(dir) {
+  const card = refs.hotGrid.querySelector(".hot-card");
+  const gap = parseFloat(getComputedStyle(refs.hotGrid).columnGap) || 0;
+  const step = card ? card.getBoundingClientRect().width + gap : refs.hotGrid.clientWidth;
+  refs.hotGrid.scrollBy({ left: dir * step, behavior: "smooth" });
+}
+
+function updateCarouselButtons() {
+  const g = refs.hotGrid;
+  const max = g.scrollWidth - g.clientWidth;
+  refs.hotPrev.disabled = g.scrollLeft <= 1;
+  refs.hotNext.disabled = g.scrollLeft >= max - 1;
+  refs.hotPrev.hidden = refs.hotNext.hidden = max <= 1;
+}
+
+function wireCarousel() {
+  refs.hotPrev.addEventListener("click", () => scrollHot(-1));
+  refs.hotNext.addEventListener("click", () => scrollHot(1));
+  refs.hotGrid.addEventListener("scroll", updateCarouselButtons, { passive: true });
+  window.addEventListener("resize", updateCarouselButtons);
+  refs.hotGrid.addEventListener("keydown", (e) => {
+    if (e.target.closest("input, textarea")) return;
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      scrollHot(e.key === "ArrowRight" ? 1 : -1);
+    }
+  });
+}
+
+// Soft card gradients; a note always gets the same one (hashed from its id).
+const HOT_GRADIENTS = [
+  "linear-gradient(135deg, #ffe3e8 0%, #fff4e6 100%)",
+  "linear-gradient(135deg, #e6f0ff 0%, #f1e8ff 100%)",
+  "linear-gradient(135deg, #e3f7ef 0%, #e8f4ff 100%)",
+  "linear-gradient(135deg, #fff1db 0%, #ffe6ec 100%)",
+  "linear-gradient(135deg, #efe8ff 0%, #ffe8f3 100%)",
+  "linear-gradient(135deg, #e6fbf8 0%, #fffbe3 100%)",
+];
+
+function gradientFor(id) {
+  let h = 0;
+  for (const ch of String(id || "")) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return HOT_GRADIENTS[h % HOT_GRADIENTS.length];
 }
 
 function buildHotCard(note) {
   const card = el("div", "hot-card");
-
-  // cover
-  const cover = el("div", "hot-cover");
-  const img = document.createElement("img");
-  img.referrerPolicy = "no-referrer";
-  img.loading = "lazy";
-  img.alt = "";
-  if (note.coverUrl) {
-    img.src = note.coverUrl;
-  } else {
-    cover.classList.add("broken");
-  }
-  img.addEventListener("error", () => cover.classList.add("broken"));
-  cover.appendChild(img);
-  const fb = el("span", "cover-fallback", "🖼");
-  cover.appendChild(fb);
-  cover.appendChild(el("span", "type-tag", note.type === "video" ? "▶ 视频" : "图文"));
-  const score = el("span", "score", "评分 " + Math.round(Number(note.score) || 0));
-  cover.appendChild(score);
-  card.appendChild(cover);
+  card.tabIndex = 0;
+  card.style.background = gradientFor(note.noteId);
 
   // body
   const body = el("div", "hot-body");
+
+  const top = el("div", "hot-top");
+  top.appendChild(el("span", "type-tag", note.type === "video" ? "▶ 视频" : "图文"));
+  top.appendChild(el("span", "score", "评分 " + Math.round(Number(note.score) || 0)));
+  body.appendChild(top);
 
   const title = el("p", "hot-title");
   if (note.title) {
@@ -156,17 +194,20 @@ function buildHotCard(note) {
   stats.appendChild(statSpan("💬", note.comments));
   body.appendChild(stats);
 
+  // revealed on hover / keyboard focus
+  const reveal = el("div", "hot-reveal");
   if (Array.isArray(note.reasons) && note.reasons.length) {
     const chips = el("div", "chips");
     for (const r of note.reasons.slice(0, 4)) chips.appendChild(el("span", "chip", r));
-    body.appendChild(chips);
+    reveal.appendChild(chips);
   }
 
   const actions = el("div", "hot-actions");
   const remixBtn = el("button", "btn primary sm", "✨ Remix");
   remixBtn.addEventListener("click", () => onRemix(note, remixBtn));
   actions.appendChild(remixBtn);
-  body.appendChild(actions);
+  reveal.appendChild(actions);
+  body.appendChild(reveal);
 
   card.appendChild(body);
   return card;
@@ -750,6 +791,7 @@ async function refreshPubGate() {
 /* ---------------- init ---------------- */
 async function init() {
   cacheRefs();
+  wireCarousel();
   refs.scanBtn.addEventListener("click", onScan);
   refs.niche.addEventListener("keydown", (e) => {
     if (e.key === "Enter") { e.preventDefault(); onScan(); }

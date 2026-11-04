@@ -95,56 +95,76 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---------- hot-note grid ---------- */
+/* ---------- hot-note carousel ---------- */
+.hot-carousel { position: relative; }
 .hot-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(300px, 340px); gap: 18px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scroll-padding-inline: 4px;
+  padding: 6px 4px 14px; scrollbar-width: none; outline: none;
 }
+.hot-grid::-webkit-scrollbar { display: none; }
 .hot-grid:empty { display: none; }
 .hot-card {
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff;
-  display: flex; flex-direction: column;
-  transition: box-shadow .3s ease, transform .3s cubic-bezier(.2, .8, .2, 1);
+  position: relative; scroll-snap-align: start; min-height: 260px;
+  border: 1px solid rgba(0,0,0,.06); border-radius: 18px; overflow: hidden;
+  display: flex; flex-direction: column; outline: none;
+  transition: box-shadow .35s ease, transform .35s cubic-bezier(.2, .8, .2, 1);
 }
-.hot-card:hover { box-shadow: 0 8px 22px rgba(0,0,0,.1); transform: translateY(-2px); }
-.hot-cover { position: relative; aspect-ratio: 3 / 4; background: #f0f0f1; overflow: hidden; }
-.hot-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hot-cover.broken { display: flex; align-items: center; justify-content: center; }
-.hot-cover.broken img { display: none; }
-.hot-cover .cover-fallback {
-  display: none; color: var(--muted); font-size: 22px;
+.hot-card:hover, .hot-card:focus-visible {
+  box-shadow: 0 14px 32px rgba(0,0,0,.12); transform: translateY(-3px);
 }
-.hot-cover.broken .cover-fallback { display: block; }
-.hot-cover .type-tag {
-  position: absolute; left: 8px; top: 8px; font-size: 10px; font-weight: 700; color: #fff;
-  background: rgba(0,0,0,.55); padding: 2px 7px; border-radius: 999px; backdrop-filter: blur(2px);
+.hot-card:focus-visible { box-shadow: 0 0 0 2px rgba(255,36,66,.45), 0 14px 32px rgba(0,0,0,.12); }
+.hot-body { padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.hot-top { display: flex; justify-content: space-between; align-items: center; }
+.hot-top .type-tag {
+  font-size: 11px; font-weight: 700; color: #444; background: rgba(255,255,255,.7);
+  padding: 3px 9px; border-radius: 999px;
 }
-.hot-cover .score {
-  position: absolute; right: 8px; top: 8px; font-size: 11px; font-weight: 800; color: #fff;
-  background: var(--red); padding: 2px 8px; border-radius: 999px; box-shadow: 0 2px 6px rgba(255,36,66,.4);
+.hot-top .score {
+  font-size: 12px; font-weight: 800; color: #fff; background: var(--red);
+  padding: 3px 10px; border-radius: 999px; box-shadow: 0 2px 6px rgba(255,36,66,.35);
 }
-.hot-body { padding: 10px 11px 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.hot-title { font-size: 13px; font-weight: 700; line-height: 1.4; margin: 0;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hot-title { font-size: 17px; font-weight: 800; line-height: 1.45; margin: 4px 0 0;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .hot-title.muted { color: var(--muted); font-weight: 600; font-style: italic; }
-.hot-author { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px;
+.hot-author { font-size: 12px; color: #666; display: flex; align-items: center; gap: 4px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hot-stats { display: flex; gap: 10px; font-size: 11px; color: #555; }
-.hot-stats span { display: inline-flex; align-items: center; gap: 3px; }
-.hot-stats .ic { opacity: .7; }
+.hot-stats { display: flex; gap: 14px; font-size: 13px; color: #444; }
+.hot-stats span { display: inline-flex; align-items: center; gap: 4px; }
+.hot-stats .ic { opacity: .75; }
+/* details appear on hover / keyboard focus (always shown on touch screens) */
+.hot-reveal {
+  margin-top: auto; display: flex; flex-direction: column; gap: 10px;
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .35s ease, transform .35s cubic-bezier(.2, .8, .2, 1);
+}
+.hot-card:hover .hot-reveal, .hot-card:focus-within .hot-reveal, .hot-card.remixing .hot-reveal {
+  opacity: 1; transform: none; pointer-events: auto;
+}
+@media (hover: none) { .hot-reveal { opacity: 1; transform: none; pointer-events: auto; } }
 .chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .chip {
   font-size: 10px; font-weight: 600; color: #555; background: #f1f1f2; border: 1px solid #e6e6e6;
   padding: 2px 7px; border-radius: 999px; line-height: 1.5;
 }
+.hot-card .chip { background: rgba(255,255,255,.75); border-color: rgba(0,0,0,.06); }
 .chip.tag { color: var(--red); background: #fff3f5; border-color: #ffd6dd; }
-.hot-actions { margin-top: auto; }
 .hot-actions .btn { width: 100%; }
 .hot-actions .btn.busy { font-size: 11px; letter-spacing: -.01em; }
 .hot-card.remixing { box-shadow: 0 0 0 2px rgba(255,36,66,.35); transform: none; }
-.hot-card.remixing .hot-cover::after {
-  content: "拆解中…"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 800; color: #fff; background: rgba(0,0,0,.45); backdrop-filter: blur(1px);
+/* round ‹ › buttons */
+.car-btn {
+  position: absolute; top: 50%; z-index: 2; width: 34px; height: 34px; margin-top: -24px;
+  border-radius: 50%; border: 1px solid var(--line); background: rgba(255,255,255,.95);
+  font-size: 20px; line-height: 1; color: var(--fg); cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
+  transition: opacity .25s ease, transform .25s ease, border-color .2s;
 }
+.car-btn.prev { left: -19px; }
+.car-btn.next { right: -19px; }
+.car-btn:hover { border-color: var(--red); transform: scale(1.06); }
+.car-btn:disabled { opacity: 0; pointer-events: none; }
+.car-btn[hidden] { display: none; }
 
 /* ---------- drafts ---------- */
 .draft-list { display: flex; flex-direction: column; gap: 14px; }

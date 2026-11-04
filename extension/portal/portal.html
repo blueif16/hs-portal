@@ -39,7 +39,11 @@
         <span id="scanMeta" class="scan-meta"></span>
       </div>
 
-      <div id="hotGrid" class="hot-grid"></div>
+      <div class="hot-carousel">
+        <button id="hotPrev" class="car-btn prev" type="button" aria-label="Previous notes">‹</button>
+        <div id="hotGrid" class="hot-grid" tabindex="0" aria-label="Trending notes — use ← → to browse"></div>
+        <button id="hotNext" class="car-btn next" type="button" aria-label="Next notes">›</button>
+      </div>
       <div id="hotEmpty" class="ph">Click <b>Scan</b> to pull today's best notes in your niche.</div>
     </section>
 
