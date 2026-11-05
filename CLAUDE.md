@@ -18,7 +18,6 @@ Content-first 小红书 growth system for an AI / 智能体 niche account. A dai
 | Old extension | `extension/` | Retired. `AUTO_RUN = false`. Its XHS web session now belongs to the engine |
 
 **Known upstream engine issues:**
-- `search_feeds` filters fail.
 - `get_my_profile` times out from an overseas IP.
 - There's no follow tool.
 - `publish_content` has no AI-content declaration.

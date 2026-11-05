@@ -50,7 +50,7 @@ then point `XHS_ENGINE_BIN` (worker/.env.local) at the new binary and run the pr
 
 **Schema change:** apply a migration with the Supabase MCP (`apply_migration`), copy it into `supabase/migrations/`, regenerate `dashboard/utils/supabase/database.types.ts`, run the security advisor.
 
-## Known upstream issues (as of 2026-11-04)
-- `search_feeds` filters fail ("元素无可点击区域") — the worker sorts/filters itself.
+## Known upstream issues (as of 2026-11-05)
+- `search_feeds` filters work on our pin: re-tested 2026-11-05, `sort_by` 最多点赞 / 最新 and `publish_time` 一周内 work alone and combined. The "元素无可点击区域" failure seen once on 2026-11-04 did not reproduce.
 - `get_my_profile` times out (loads `/explore`, which an overseas IP gets redirected away from) — account snapshot step is skipped until fixed.
 - No follow tool; `publish_content` has no AI-content declaration — tick 【笔记含AI合成内容】 by hand when publishing AI-assisted drafts.
