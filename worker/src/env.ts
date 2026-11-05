@@ -22,5 +22,7 @@ export const config = {
   claudeBin: process.env.CLAUDE_BIN || join(homedir(), ".local/bin/claude"),
   model: process.env.WORKER_MODEL || "claude-haiku-5-5",
   detailsPerRun: Number(process.env.DETAILS_PER_RUN || 8),
+  keywordCap: Number(process.env.KEYWORD_CAP || 20),
+  candidatesPerRun: Number(process.env.CANDIDATES_PER_RUN || 10),
   maxRunMinutes: Number(process.env.MAX_RUN_MINUTES || 60),
 };

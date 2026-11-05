@@ -10,6 +10,7 @@ import { haiku } from "./llm.ts";
 import { parseSearchFeeds, parseFeedDetail, noteIdTime, type SearchRow } from "./parse.ts";
 import { growthPerDay, scoreNote, pickDetailCandidates, keepCitedCards } from "./score.ts";
 import { draftProblems } from "./gate.ts";
+import { keywordHeat, planKeywords, type KeywordRun } from "./keywords.ts";
 import * as P from "./prompts.ts";
 
 const DAY = 24 * 3600_000;
@@ -26,25 +27,29 @@ async function llm<T>(prompt: string, schema: object): Promise<T> {
   return data;
 }
 
-async function activeKeywords(): Promise<string[]> {
-  let rows = check(await db.from("keywords").select("keyword").eq("status", "active"), "load keywords");
-  if (!rows.length) {
+// Active keywords plus the oldest pending candidates; a candidate gets the same search and heat score as the rest.
+async function loadKeywords(): Promise<{ keyword: string; status: "active" | "candidate" }[]> {
+  const all = check(await db.from("keywords").select("keyword, status, added_at"), "load keywords");
+  if (!all.length) {
     const seeds: string[] = JSON.parse(readFileSync(new URL("../seed-keywords.json", import.meta.url), "utf8"));
     check(await db.from("keywords").insert(seeds.map((keyword) => ({ keyword, source: "seed" }))), "seed keywords");
-    rows = seeds.map((keyword) => ({ keyword }));
     log(`seeded ${seeds.length} keywords`);
+    return seeds.map((keyword) => ({ keyword, status: "active" }));
   }
-  return rows.map((r) => r.keyword);
+  const candidates = all.filter((k) => k.status === "candidate").sort((a, b) => a.added_at.localeCompare(b.added_at)).slice(0, config.candidatesPerRun);
+  return [...all.filter((k) => k.status === "active"), ...candidates].map((k) => ({ keyword: k.keyword, status: k.status as "active" | "candidate" }));
 }
 
 async function searchAll(engine: Engine, keywords: string[], deadline: number) {
   const seen = new Map<string, SearchRow & { keyword: string }>();
+  const pages = new Map<string, SearchRow[]>(); // every keyword's full page, before dedupe — for its heat
   for (const keyword of shuffle(keywords)) {
     if (Date.now() > deadline) { bump("stopped_at_deadline"); break; }
     try {
       const rows = parseSearchFeeds(await engine.call("search_feeds", { keyword, filters: WEEKLY_HITS }));
       bump("searches");
       bump("search_results", rows.length);
+      pages.set(keyword, rows);
       for (const r of rows) if (!seen.has(r.noteId)) seen.set(r.noteId, { ...r, keyword });
     } catch (e) {
       bump("search_errors");
@@ -52,7 +57,7 @@ async function searchAll(engine: Engine, keywords: string[], deadline: number) {
     }
     await pause();
   }
-  return seen;
+  return { seen, pages };
 }
 
 async function main() {
@@ -68,8 +73,9 @@ async function main() {
     const login = String(await engine.call("check_login_status"));
     if (!login.includes("已登录")) throw new Error("LOGIN_REQUIRED — run the login tool (see RUNBOOK.md)");
 
-    // 1–2. this week's hits (最多点赞 · 一周内) for every active keyword
-    const seen = await searchAll(engine, await activeKeywords(), deadline);
+    // 1–2. this week's hits for every active keyword and pending candidate
+    const keywords = await loadKeywords();
+    const { seen, pages } = await searchAll(engine, keywords.map((k) => k.keyword), deadline);
     const ids = [...seen.keys()];
     if (!ids.length) throw new Error("no search results at all — engine or account problem");
 
@@ -117,6 +123,33 @@ async function main() {
       }
     }
 
+    // 4b. keyword upkeep: heat + on-niche share per searched keyword; keep the top N, retire two misses in a row
+    const prevStats = check(
+      await db.from("keyword_stats").select("keyword, in_cut").in("keyword", [...pages.keys()]).order("captured_at", { ascending: false }),
+      "load keyword stats",
+    );
+    const prevBelow = new Map<string, boolean>();
+    for (const s of prevStats) if (!prevBelow.has(s.keyword)) prevBelow.set(s.keyword, !s.in_cut);
+    const statusOf = new Map(keywords.map((k) => [k.keyword, k.status]));
+    const kwRuns: KeywordRun[] = [...pages].map(([keyword, page]) => {
+      const labels = page.map((r) => niche.get(r.noteId)).filter((n) => n);
+      return {
+        keyword, status: statusOf.get(keyword)!, heat: keywordHeat(page), prevBelow: prevBelow.get(keyword) ?? false,
+        onShare: labels.length ? labels.filter((n) => n === "on").length / labels.length : null,
+      };
+    });
+    const plan = new Map(planKeywords(kwRuns, config.keywordCap).map((p) => [p.keyword, p]));
+    check(await db.from("keyword_stats").insert(kwRuns.map((k) => ({
+      run_id: run.id, keyword: k.keyword, status: k.status, results: pages.get(k.keyword)!.length,
+      heat: k.heat, on_share: k.onShare, in_cut: plan.get(k.keyword)!.inCut,
+    }))), "insert keyword stats");
+    for (const p of [...plan.values()].filter((p) => p.to)) {
+      check(await db.from("keywords").update({
+        status: p.to!, status_reason: p.reason, status_changed_at: now, ...(p.to === "active" ? { validated_at: now } : {}),
+      }).eq("keyword", p.keyword), "update keyword status");
+      bump(p.to === "active" ? "keywords_activated" : "keywords_retired");
+    }
+
     // 5. score: momentum over size, saves over likes (first sighting: engagement per day since publish)
     const nowMs = Date.now();
     const scored = ids.map((id) => {
@@ -158,24 +191,18 @@ async function main() {
     if (detailed.length) {
       const known = new Set(detailed.map((d: any) => d.note_id as string));
 
-      // 7. Haiku: keyword ideas → validated by a real search before they can be activated
+      // 7. Haiku: keyword ideas → candidates; the next run searches them and step 4b decides by heat
       const current = check(await db.from("keywords").select("keyword"), "all keywords").map((k) => k.keyword);
       const ideas = await llm<{ keywords: { keyword: string; reason: string; evidence_note_ids: string[] }[] }>(
         P.keywordPrompt(current, detailed.map((d: any) => ({ note_id: d.note_id, title: d.title, tags: d.tags, comments: d.top_comments }))),
         P.keywordSchema,
       );
-      for (const k of ideas.keywords.filter((k) => k.keyword.trim() && !current.includes(k.keyword.trim()))) {
-        if (Date.now() > deadline) break;
-        let results = 0;
-        try { results = parseSearchFeeds(await engine.call("search_feeds", { keyword: k.keyword.trim() })).length; } catch {}
-        await pause();
-        check(await db.from("keywords").insert({
-          keyword: k.keyword.trim(), status: "candidate", source: "proposed",
-          proposed_reason: `${k.reason}（依据 ${k.evidence_note_ids.join(", ")}；验证搜索 ${results} 条）`,
-          validated_at: results >= 10 ? new Date().toISOString() : null,
-        }), "insert keyword idea");
-        bump("keyword_ideas");
-      }
+      const newIdeas = new Map(ideas.keywords.map((k) => [k.keyword.trim(), k] as const).filter(([kw]) => kw && !current.includes(kw)));
+      if (newIdeas.size)
+        check(await db.from("keywords").upsert([...newIdeas].map(([keyword, k]) => ({
+          keyword, status: "candidate", source: "proposed", proposed_reason: `${k.reason}（依据 ${k.evidence_note_ids.join(", ")}）`,
+        })), { onConflict: "keyword", ignoreDuplicates: true }), "insert keyword ideas");
+      bump("keyword_ideas", newIdeas.size);
 
       // 8. Haiku: opportunity cards; 9. code drops any card that cites notes we don't have
       const { cards } = await llm<{ cards: any[] }>(P.cardPrompt(detailed), P.cardSchema);
