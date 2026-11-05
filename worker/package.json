@@ -5,5 +5,13 @@
   "scripts": {
     "test": "node --test test/*.test.ts",
     "discover": "node src/run.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@supabase/supabase-js": "^2.119.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
   }
 }
