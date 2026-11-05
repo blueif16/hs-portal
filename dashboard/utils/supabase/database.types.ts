@@ -140,6 +140,57 @@ export type Database = {
         }
         Relationships: []
       }
+      keyword_stats: {
+        Row: {
+          captured_at: string
+          heat: number
+          id: number
+          in_cut: boolean
+          keyword: string
+          on_share: number | null
+          results: number
+          run_id: number
+          status: string
+        }
+        Insert: {
+          captured_at?: string
+          heat: number
+          id?: never
+          in_cut: boolean
+          keyword: string
+          on_share?: number | null
+          results: number
+          run_id: number
+          status: string
+        }
+        Update: {
+          captured_at?: string
+          heat?: number
+          id?: never
+          in_cut?: boolean
+          keyword?: string
+          on_share?: number | null
+          results?: number
+          run_id?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "keyword_stats_keyword_fkey"
+            columns: ["keyword"]
+            isOneToOne: false
+            referencedRelation: "keywords"
+            referencedColumns: ["keyword"]
+          },
+          {
+            foreignKeyName: "keyword_stats_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "job_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       keywords: {
         Row: {
           added_at: string
@@ -148,6 +199,8 @@ export type Database = {
           proposed_reason: string | null
           source: string
           status: string
+          status_changed_at: string | null
+          status_reason: string | null
           validated_at: string | null
         }
         Insert: {
@@ -157,6 +210,8 @@ export type Database = {
           proposed_reason?: string | null
           source?: string
           status?: string
+          status_changed_at?: string | null
+          status_reason?: string | null
           validated_at?: string | null
         }
         Update: {
@@ -166,6 +221,8 @@ export type Database = {
           proposed_reason?: string | null
           source?: string
           status?: string
+          status_changed_at?: string | null
+          status_reason?: string | null
           validated_at?: string | null
         }
         Relationships: []
