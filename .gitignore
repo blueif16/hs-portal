@@ -7,3 +7,4 @@ ref/
 # OS / editor noise
 .DS_Store
 *.log
+.tasks/HANDOFF-*.md
