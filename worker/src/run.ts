@@ -5,7 +5,7 @@ import { hostname } from "node:os";
 import { readFileSync } from "node:fs";
 import { config } from "./env.ts";
 import { db, check } from "./db.ts";
-import { ensureEngine, pause, type Engine } from "./engine.ts";
+import { ensureEngine, pause, WEEKLY_HITS, type Engine } from "./engine.ts";
 import { haiku } from "./llm.ts";
 import { parseSearchFeeds, parseFeedDetail, noteIdTime, type SearchRow } from "./parse.ts";
 import { growthPerDay, scoreNote, pickDetailCandidates, keepCitedCards } from "./score.ts";
@@ -42,7 +42,7 @@ async function searchAll(engine: Engine, keywords: string[], deadline: number) {
   for (const keyword of shuffle(keywords)) {
     if (Date.now() > deadline) { bump("stopped_at_deadline"); break; }
     try {
-      const rows = parseSearchFeeds(await engine.call("search_feeds", { keyword }));
+      const rows = parseSearchFeeds(await engine.call("search_feeds", { keyword, filters: WEEKLY_HITS }));
       bump("searches");
       bump("search_results", rows.length);
       for (const r of rows) if (!seen.has(r.noteId)) seen.set(r.noteId, { ...r, keyword });
@@ -68,7 +68,7 @@ async function main() {
     const login = String(await engine.call("check_login_status"));
     if (!login.includes("已登录")) throw new Error("LOGIN_REQUIRED — run the login tool (see RUNBOOK.md)");
 
-    // 1–2. search every active keyword
+    // 1–2. this week's hits (最多点赞 · 一周内) for every active keyword
     const seen = await searchAll(engine, await activeKeywords(), deadline);
     const ids = [...seen.keys()];
     if (!ids.length) throw new Error("no search results at all — engine or account problem");

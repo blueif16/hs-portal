@@ -70,5 +70,8 @@ export async function ensureEngine(): Promise<{ engine: Engine; stop: () => void
 }
 
 // Random human-ish pause between engine calls (research: 5–15s, one call at a time).
+// What practitioners and the paid 爆款榜 tools use: this week's notes ranked by likes, one page per keyword.
+export const WEEKLY_HITS = { sort_by: "最多点赞", publish_time: "一周内" };
+
 export const pause = (minS = 5, maxS = 15) =>
   new Promise((r) => setTimeout(r, (minS + Math.random() * (maxS - minS)) * 1000));
