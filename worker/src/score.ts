@@ -10,10 +10,12 @@ export function engagement(c: C): number {
   return (c.likes || 0) + 1.5 * (c.collects || 0) + 2 * (c.comments || 0);
 }
 
-// Engagement gained per 24h since the previous snapshot; null on first sighting.
-export function growthPerDay(now: Snap, prev: Snap | undefined): number | null {
-  if (!prev || now.at <= prev.at) return null;
-  return (engagement(now) - engagement(prev)) / ((now.at - prev.at) / DAY);
+// Engagement gained per 24h since the previous snapshot. On first sighting, lifetime engagement per day
+// since publish (notes under a day old count as one day); null when neither is known.
+export function growthPerDay(now: Snap, prev: Snap | undefined, publishedAt?: number | null): number | null {
+  if (prev && now.at > prev.at) return (engagement(now) - engagement(prev)) / ((now.at - prev.at) / DAY);
+  if (publishedAt == null) return null;
+  return engagement(now) / Math.max((now.at - publishedAt) / DAY, 1);
 }
 
 // Momentum dominates size: log-scaled so a rising small note can beat a stalled big one.

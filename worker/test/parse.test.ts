@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { parseCount, extractTopics, parseSearchFeeds, parseFeedDetail } from "../src/parse.ts";
+import { parseCount, extractTopics, parseSearchFeeds, parseFeedDetail, noteIdTime } from "../src/parse.ts";
 
 const fixture = (name: string) =>
   JSON.parse(readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8"));
@@ -64,4 +64,14 @@ test("parseFeedDetail extracts text, topics, publish time, images and comments",
   assert.equal(d.comments.length, 2);
   assert.deepEqual(d.comments[0], { commentId: "6aa49bdb000000000b017c65", content: d.comments[0].content, likes: 11 });
   assert.ok(d.comments[0].content.startsWith("玩过两三个月人机恋"));
+});
+
+test("noteIdTime reads the publish time embedded in a note id", () => {
+  // Real note 6ace3693…: its detail page reports publish time 2026-10-13 13:48:03 UTC.
+  assert.equal(noteIdTime("6ace3693000000000202abe1"), Date.parse("2026-10-13T13:48:03Z"));
+});
+
+test("noteIdTime returns null for anything that is not a 24-hex note id", () => {
+  assert.equal(noteIdTime("abc"), null);
+  assert.equal(noteIdTime("zzzz3693000000000202abe1"), null);
 });

@@ -7,7 +7,7 @@ import { config } from "./env.ts";
 import { db, check } from "./db.ts";
 import { ensureEngine, pause, type Engine } from "./engine.ts";
 import { haiku } from "./llm.ts";
-import { parseSearchFeeds, parseFeedDetail, type SearchRow } from "./parse.ts";
+import { parseSearchFeeds, parseFeedDetail, noteIdTime, type SearchRow } from "./parse.ts";
 import { growthPerDay, scoreNote, pickDetailCandidates, keepCitedCards } from "./score.ts";
 import { draftProblems } from "./gate.ts";
 import * as P from "./prompts.ts";
@@ -117,12 +117,12 @@ async function main() {
       }
     }
 
-    // 5. score: momentum over size, saves over likes
+    // 5. score: momentum over size, saves over likes (first sighting: engagement per day since publish)
     const nowMs = Date.now();
     const scored = ids.map((id) => {
       const r = seen.get(id)!;
       const p = prev.get(id);
-      const growth = growthPerDay({ ...r, at: nowMs }, p ? { ...p, at: Date.parse(p.captured_at) } : undefined);
+      const growth = growthPerDay({ ...r, at: nowMs }, p ? { ...p, at: Date.parse(p.captured_at) } : undefined, noteIdTime(id));
       const fetched = existing.get(id)?.detail_fetched_at;
       return { noteId: id, row: r, growth, score: scoreNote(r, growth), niche: niche.get(id) ?? null,
                detailFresh: !!fetched && nowMs - Date.parse(fetched) < 3 * DAY };

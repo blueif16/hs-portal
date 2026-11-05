@@ -66,3 +66,30 @@ test("keepCitedCards drops cards that cite nothing or cite unknown notes", () =>
   ];
   assert.deepEqual(keepCitedCards(cards, known).map((c) => c.title), ["ok"]);
 });
+
+const DAY = 24 * HOUR;
+
+test("on first sighting, growthPerDay is lifetime engagement per day since publish", () => {
+  const now = { likes: 1000, collects: 0, comments: 0, at: 10 * DAY };
+  assert.equal(growthPerDay(now, undefined, 6 * DAY), 250); // 1000 over 4 days
+});
+
+test("a note younger than a day counts as one day old", () => {
+  const now = { likes: 100, collects: 0, comments: 0, at: 10 * DAY };
+  assert.equal(growthPerDay(now, undefined, 10 * DAY - 2 * HOUR), 100);
+});
+
+test("an earlier snapshot takes precedence over publish age", () => {
+  const prev = { likes: 100, collects: 0, comments: 0, at: 9 * DAY };
+  const now = { likes: 150, collects: 0, comments: 0, at: 10 * DAY };
+  assert.equal(growthPerDay(now, prev, 0), 50);
+});
+
+test("on first sighting, a 3-day-old note outranks a 200-day-old note with five times the likes", () => {
+  const at = 300 * DAY;
+  const fresh = { likes: 900, collects: 300, comments: 40, at };
+  const old = { likes: 4500, collects: 1500, comments: 200, at };
+  const freshScore = scoreNote(fresh, growthPerDay(fresh, undefined, at - 3 * DAY));
+  const oldScore = scoreNote(old, growthPerDay(old, undefined, at - 200 * DAY));
+  assert.ok(freshScore > oldScore);
+});

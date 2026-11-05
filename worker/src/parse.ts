@@ -85,3 +85,10 @@ export function parseFeedDetail(json: any): FeedDetail {
       .map((c) => ({ commentId: c.id, content: c.content, likes: parseCount(c.likeCount) })),
   };
 }
+
+// XHS note ids are MongoDB-style ObjectIds: the first 8 hex digits are the creation time in epoch seconds.
+// Checked against detail-page publish times on 8 real notes (2026-11-05): exact or within hours.
+export function noteIdTime(noteId: string): number | null {
+  if (!/^[0-9a-f]{24}$/i.test(noteId)) return null;
+  return parseInt(noteId.slice(0, 8), 16) * 1000;
+}
